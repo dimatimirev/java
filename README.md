@@ -1,60 +1,69 @@
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class Main {
-public static String calc(String input) {
-String regex = "^(\\d{1,2})\\s*([+\\-*/])\\s*(\\d{1,2})$";
-Pattern pattern = Pattern.compile(regex);
-Matcher matcher = pattern.matcher(input.trim());
 
-if (!matcher.matches()) {
-throw new IllegalArgumentException("" + "throws Exception");
+public static String calc(String input) {
+
+String[] parts = input.split(" ");
+
+
+if (parts.length != 3) {
+throw new IllegalArgumentException("Ошибка: Введите выражение в формате 'a operator b'.");
 }
 
-int num1 = Integer.parseInt(matcher.group(1));
-String operator = matcher.group(2);
-int num2 = Integer.parseInt(matcher.group(3));
+// Парсинг чисел и операции
+try {
+int a = Integer.parseInt(parts[0]);
+char operator = parts[1].charAt(0);
+int b = Integer.parseInt(parts[2]);
 
-if (num1 < 1 || num1 > 10 || num2 < 1 || num2 > 10) {
-throw new IllegalArgumentException("Numbers must be between 1 and 10");
+if (a < 1 || a > 10 || b < 1 || b > 10) {
+throw new IllegalArgumentException("Ошибка: Числа должны быть в диапазоне от 1 до 10.");
 }
 
 int result;
-switch (operator) {
-case "+":
-result = num1 + num2;
-break;
-case "-":
-result = num1 - num2;
-break;
-case "*":
-result = num1 * num2;
-break;
-case "/":
-if (num2 == 0) {
-throw new ArithmeticException("Division by zero is not allowed");
-}
-result = num1 / num2;
-break;
-default:
-throw new IllegalArgumentException("Unsupported operator");
-}
 
+switch (operator) {
+case '+':
+result = a + b;
 return String.valueOf(result);
+case '-':
+result = a - b;
+return String.valueOf(result);
+case '*':
+result = a * b;
+return String.valueOf(result);
+case '/':
+if (b == 0) {
+throw new IllegalArgumentException("Ошибка: Деление на ноль невозможно.");
+}
+result = a / b; // Целочисленное деление
+return String.valueOf(result);
+default:
+throw new IllegalArgumentException("Ошибка: Неверная операция.");
+}
+} catch (NumberFormatException e) {
+throw new IllegalArgumentException("Ошибка: Ввод должен содержать целые числа.");
+}
 }
 
 public static void main(String[] args) {
 Scanner scanner = new Scanner(System.in);
-System.out.println("Введите выражение (например, 3 + 5):");
+System.out.println("Введите арифметическое выражение (например, '2 + 3'): ");
+
 String input = scanner.nextLine();
 
 try {
 String result = calc(input);
 System.out.println("Результат: " + result);
-} catch (IllegalArgumentException | ArithmeticException e) {
-System.err.println("Ошибка: " + e.getMessage());
+} catch (IllegalArgumentException e) {
+System.out.println(e.getMessage());
+} finally {
+scanner.close();
 }
 }
 }
+21:55
 
+
+VK Тренировки
