@@ -11,7 +11,7 @@ if (parts.length != 3) {
 throw new IllegalArgumentException("Ошибка: Введите выражение в формате 'a operator b'.");
 }
 
-// Парсинг чисел и операции
+
 try {
 int a = Integer.parseInt(parts[0]);
 char operator = parts[1].charAt(0);
