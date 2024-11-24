@@ -65,4 +65,4 @@ class Main {
             scanner.close();
         }
     }
-}
+
